@@ -1,0 +1,221 @@
+<!doctype html>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="generator" content="Control My Lights">
+  <title>Control My Lights</title>
+
+  <!-- Place favicon.ico in the `app/` directory -->
+
+  <!-- Chrome for Android theme color -->
+  <meta name="theme-color" content="#2E3AA1">
+
+  <!-- Web Application Manifest -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Tile color for Win8 -->
+  <meta name="msapplication-TileColor" content="#3372DF">
+
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="PSK">
+  <link rel="icon" sizes="192x192" href="images/touch/chrome-touch-icon-192x192.png">
+
+  <!-- Add to homescreen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Control My Lights">
+  <link rel="apple-touch-icon" href="images/touch/apple-touch-icon.png">
+
+  <!-- Tile icon for Win8 (144x144) -->
+  <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
+
+  <!-- build:css styles/main.css -->
+  <link rel="stylesheet" href="styles/main.css">
+  <!-- endbuild-->
+
+  <!-- build:js bower_components/webcomponentsjs/webcomponents-lite.min.js -->
+  <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <!-- endbuild -->
+
+  <!-- Because this project uses vulcanize this should be your only html import
+       in this file. All other imports should go in elements.html -->
+  <link rel="import" href="elements/elements.html">
+
+  <!-- For shared styles, shared-styles.html import in elements.html -->
+  <style is="custom-style" include="shared-styles"></style>
+</head>
+
+<body unresolved>
+  <!-- build:remove -->
+  <span id="browser-sync-binding"></span>
+  <!-- endbuild -->
+
+  <template is="dom-bind" id="app">
+
+    <paper-drawer-panel id="paperDrawerPanel">
+      <!-- Drawer Scroll Header Panel -->
+      <paper-scroll-header-panel drawer fixed>
+
+        <!-- Drawer Toolbar -->
+        <paper-toolbar id="drawerToolbar">
+          <span class="menu-name">Menu</span>
+        </paper-toolbar>
+
+        <!-- Drawer Content -->
+        <paper-menu class="app-menu" attr-for-selected="data-route" selected="[[route]]">
+          <a data-route="home" href="{{baseUrl}}">
+            <iron-icon icon="home"></iron-icon>
+            <span>Home</span>
+          </a>
+
+          <a data-route="lights" href="{{baseUrl}}lights">
+            <iron-icon icon="lightbulb-outline"></iron-icon>
+            <span>Lights</span>
+          </a>
+
+          <a data-route="logins" href="{{baseUrl}}logins">
+            <iron-icon icon="account-circle"></iron-icon>
+            <span>Logins</span>
+          </a>
+
+        </paper-menu>
+      </paper-scroll-header-panel>
+
+      <!-- Main Area -->
+      <paper-scroll-header-panel main id="headerPanelMain" condenses keep-condensed-header>
+        <!-- Main Toolbar -->
+        <paper-toolbar id="mainToolbar" class="tall">
+          <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
+
+          <span class="space"></span>
+
+          <!-- Toolbar icons -->
+          <paper-icon-button icon="refresh"></paper-icon-button>
+
+
+          <!-- Application name -->
+          <div class="middle middle-container">
+            <div class="app-name">Control My Lights</div>
+          </div>
+
+          <!-- Application sub title -->
+          <div class="bottom bottom-container">
+            <div class="bottom-title">...a personal hobby gone overboard!</div>
+          </div>
+        </paper-toolbar>
+
+        <!-- Main Content -->
+        <div class="content">
+          <iron-pages attr-for-selected="data-route" selected="{{route}}">
+            <section data-route="home" tabindex="-1">
+
+              <paper-material elevation="1">
+                <h1 class="page-title" tabindex="-1">Welcome</h1>
+                <p>To control the lights on my house, you will first have to tell me who you are by logging into one of the social media authentication services that I have enabled (currently only facebook).  Once logged in you will be able to control any of 16 individual outlets with different lights plugged into them. </p>
+                <h2>How it all started...</h2>
+                <p>
+                  <b>me:</b> I don't have any hobbies... I think I'll buy a Raspberry Pi...
+                  <br><b>wife:</b> is it very expensive?
+                  <br><b>me:</b> no. it's only $35
+                  <br><b>wife:</b> go for it!
+                </p>
+                <h2>2 years later...</h2>
+                <p>
+                  <ul>
+                    <li><a href="https://www.amazon.com/Raspberry-components--Raspberry-Guide--Edimax-Adapter--8GB-Adapter--Case--Power/dp/B00PWYK2V6/ref=sr_1_1?s=pc&ie=UTF8&qid=1446641546&sr=1-1&keywords=Raspberry+Pi+2+Model+B+%281GB%29+Ultimate+Starter+Kit" target="_blank">Raspberry Pi Deluxe Starter Kit</a>... $85</li>
+                    <li><a href="https://www.amazon.com/gp/product/B00NBGGCHK/ref=oh_aui_detailpage_o04_s00?ie=UTF8&psc=1" target="_blank">16 channel relay control board</a>... $48</li>
+                    <li><a href="https://www.amazon.com/gp/product/B00M5WLZDW/ref=oh_aui_detailpage_o00_s00?ie=UTF8&psc=1" target="_blank">Additional Jumper Wires</a>... $10</li>
+                    <li><a href="https://www.amazon.com/gp/product/B005T57PK4/ref=oh_aui_detailpage_o01_s00?ie=UTF8&psc=1" target="_blank">Weather proof project enclosure</a>... $57</li>
+                    <li><a href="https://www.amazon.com/gp/product/B00841YDSM/ref=oh_aui_detailpage_o03_s00?ie=UTF8&psc=1" target="_blank">Weather proof cable glands</a>... $5</li>
+                    <li><a href="https://www.amazon.com/gp/product/B00583478A/ref=oh_aui_detailpage_o08_s00?ie=UTF8&psc=1" target="_blank">250 ft. of green lamp wire</a>... $45</li>
+                    <li>32 <a href ="https://www.amazon.com/Novelty-Lights-MP-10A-GR-SPT-2-Vampire-Design/dp/B004SCO1CO/ref=sr_1_fkmr0_1?ie=UTF8&qid=1479865769&sr=8-1-fkmr0&keywords=24+of+novelty+lights+mp-10a-gr-spt-2" target="_blank">plugs</a> and <a href="https://www.amazon.com/Novelty-Lights-FS-10A-GR-SPT-2-Female-Vampire/dp/B004SHC57M/ref=sr_1_fkmr0_1?ie=UTF8&qid=1479865716&sr=8-1-fkmr0&keywords=24+of+novelty+lights+fs-10a-gr-spt-2" target="_blank">sockets</a> for custom-length extension cords... $45</li>
+                    <li>Countless hours learning nodejs, express, and polymer for the first time ... Pricele$$!</li>
+                  </ul>
+                </p>
+                <h1>Yet To Do:</h2>
+                <p>
+                  <ul>
+                    <li>additional social media authentication services (google+, twitter, and others coming soon)</li>
+                    <li>FIFO queue for authenticated users with 5 minutes of dedicated time (raspberry pi can't handle too many concurrent users... plus it gets too hard to tell if it's actually YOU controlling the lights or someone else)</li>
+                    <li>geo fencing based on mobile device location (so I know you're looking at my lights and not sitting half way around the world freaking out my dog :)</li>
+                  </ul>
+                </p>
+
+              </paper-material>
+
+            </section>
+
+            <section data-route="lights" tabindex="-1">
+                <paper-material elevation="1">
+                  <h1 class="page-title" tabindex="-1">Lights</h1>
+                  <p>Toggle the state of each light using these buttons</p>
+
+                  <my-gpio-buttons></my-gpio-buttons>
+
+                </paper-material>
+            </section>
+
+            <section data-route="user-info" tabindex="-1">
+              <paper-material elevation="-1">
+                <h1 class="page-title" tabindex="-1">User: {{params.name}}</h1>
+                <div>This is {{params.name}}'s section</div>
+              </paper-material>
+            </section>
+
+            <section data-route="logins" tabindex="-1">
+              <paper-material elevation="1">
+                <h1 class="page-title" tabindex="-1">Logins</h1>
+                <my-login></my-login>
+              </paper-material>
+            </section>
+
+
+          </iron-pages>
+        </div>
+      </paper-scroll-header-panel>
+    </paper-drawer-panel>
+
+    <paper-toast id="toast">
+      <span class="toast-hide-button" role="button" tabindex="0" onclick="app.$.toast.hide()">Ok</span>
+    </paper-toast>
+
+    <!-- Uncomment next block to enable Service Worker support (1/2) -->
+    <!--
+    <paper-toast id="caching-complete"
+                 duration="6000"
+                 text="Caching complete! This app will work offline.">
+    </paper-toast>
+
+    <platinum-sw-register auto-register
+                          clients-claim
+                          skip-waiting
+                          base-uri="bower_components/platinum-sw/bootstrap"
+                          on-service-worker-installed="displayInstalledToast">
+      <platinum-sw-cache default-cache-strategy="fastest"
+                         cache-config-file="cache-config.json">
+      </platinum-sw-cache>
+    </platinum-sw-register>
+    -->
+
+  </template>
+
+  <!-- build:js scripts/app.js -->
+  <script src="scripts/app.js"></script>
+  <!-- endbuild-->
+</body>
+
+</html>

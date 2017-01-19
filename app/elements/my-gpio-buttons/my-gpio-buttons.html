@@ -1,0 +1,120 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="my-gpio-buttons">
+  <template>
+    <style is="custom-style">
+      paper-button.custom {
+        margin-top: 5px;
+        margin-bottom: 5px;
+        color: white;
+        background-color: blue;
+      }
+    </style>
+
+    <iron-ajax id="ajaxAgentConfig" auto
+        url="/agent/myagent/config"
+        params='{}'
+        handle-as="json"
+        last-response="{{data}}"></iron-ajax>
+
+    <iron-ajax id="ajaxGpioStatus" auto
+        url="/agent/myagent/pin/all/status"
+        params='{}'
+        handle-as="json"
+        last-response="{{ajaxResponse}}"
+        on-response="setMyGpioBtnColor"></iron-ajax>
+    <div align="center">
+      <template id="enabled_pins" is="dom-repeat" items="{{data.enabled_pins}}">
+          <my-gpio-btn id="gpioBtn{{item.pin}}" my_btn_id="{{item.pin}}">#{{item.order}}</my-gpio-btn>
+      </template>
+
+      <hr>
+
+      <paper-button id="btnAll" on-tap="toggle" btn-group="all" raised class="custom">
+        <iron-icon icon="lightbulb-outline"></iron-icon>
+        <content>All</content>
+      </paper-button>
+
+      <paper-button id="btnOdd" on-tap="toggle" btn-group="even" raised class="custom">
+        <iron-icon icon="lightbulb-outline"></iron-icon>
+        <content>Odd</content>
+      </paper-button>
+
+      <paper-button id="btnEven" on-tap="toggle" btn-group="odd" raised class="custom">
+        <iron-icon icon="lightbulb-outline"></iron-icon>
+        <content>Even</content>
+      </paper-button>
+    </div>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'my-gpio-buttons',
+
+        _updateData: function() {
+          this.async(function() {
+            this.$.ajaxGpioStatus.generateRequest();
+          }, 5000);
+        },
+
+        setMyGpioBtnColor: function(data) {
+            var i;
+            var res = data.detail.response;
+            for (i = 0; i < res.length; ++i) {
+                var btn = this.$$('my-gpio-btn#gpioBtn'+res[i].pin).$$('#btn');
+
+                if (res[i].state == true) {
+                  btn.style.backgroundColor = "red";
+                } else {
+                  btn.style.backgroundColor = "green";
+                }
+            }
+            this._updateData();
+        },
+
+        toggle: function(e) {
+            var http = new XMLHttpRequest();
+            var res, btn, i;
+            var btnGroup = e.target.getAttribute('btn-group');
+
+            http.open("GET", "/agent/myagent/pin/"+ btnGroup +"/toggle", true);
+            http.onreadystatechange = function() {
+                if (http.readyState == 4 && http.status == 200) {
+                  res = JSON.parse(http.responseText);
+
+                  for (i = 0; i < res.length; ++i) {
+                    btn = document.querySelector('my-gpio-btn#gpioBtn'+res[i].pin).$$('#btn');
+                    if (res[i].state == true) {
+                      btn.style.backgroundColor = "red";
+                    } else {
+                      btn.style.backgroundColor = "green";
+                    }
+                  }
+                }
+                else {
+                    // console.log('readyState=' + http.readyState + ', status: ' + http.status);
+                }
+            }
+            http.send();
+        }
+
+      });
+    })();
+
+  </script>
+</dom-module>

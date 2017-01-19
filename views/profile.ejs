@@ -1,0 +1,19 @@
+{
+"provider":"<%= user.provider %>",
+"id":"<%= user.id %>",
+"username": "<%= user.username %>",
+"name": "<%= user.displayName %>"
+<% if (user.emails) { %>
+,"email": "<%= user.emails[0].value %>"
+<% } %>
+<% if (user.provider == "facebook") { %>
+,"thumbnail": "<%= "http://graph.facebook.com/"+user.id+"/picture?type=square" %>"
+<% } %>
+<% if (user.provider == "twitter") { %>
+,"thumbnail": "<%= "https://twitter.com/"+user.username+"/profile_image?size=normal" %>"
+<% } %>
+<% if (user.provider == "google") { %>
+,"thumbnail": "<%= user.photos[0].value %>"
+<% } %>
+
+}
